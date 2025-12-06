@@ -1,6 +1,6 @@
 "use client"
 
-import { Package, Target } from "lucide-react"
+import { Package, Target, Sparkles } from "lucide-react"
 import type { DetectionResult } from "@/hooks/use-object-detection"
 
 interface ResultsCardProps {
@@ -20,7 +20,7 @@ const getConfidenceBg = (confidence: number) => {
 }
 
 export function ResultsCard({ results }: ResultsCardProps) {
-  const { objects } = results
+  const { objects, scene, modelInfo } = results
 
   if (objects.length === 0) {
     return (
@@ -46,6 +46,16 @@ export function ResultsCard({ results }: ResultsCardProps) {
         </span>
       </div>
 
+      {scene && (
+        <div className="mb-4 p-3 bg-primary/10 border border-primary/20 rounded-lg">
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium text-primary">Scene Analysis</span>
+          </div>
+          <p className="text-sm text-foreground">{scene}</p>
+        </div>
+      )}
+
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {objects.map((obj, index) => (
           <div key={index} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
@@ -53,9 +63,7 @@ export function ResultsCard({ results }: ResultsCardProps) {
               <div className={`w-3 h-3 rounded-full ${getConfidenceBg(obj.confidence)}`} />
               <div>
                 <p className="font-medium text-foreground capitalize">{obj.name}</p>
-                <p className="text-xs text-muted-foreground">
-                  Position: ({Math.round(obj.box.x)}, {Math.round(obj.box.y)})
-                </p>
+                {obj.description && <p className="text-xs text-muted-foreground mt-0.5">{obj.description}</p>}
               </div>
             </div>
             <div className="text-right">
@@ -68,13 +76,19 @@ export function ResultsCard({ results }: ResultsCardProps) {
         ))}
       </div>
 
-      <div className="mt-4 pt-4 border-t border-border">
+      <div className="mt-4 pt-4 border-t border-border space-y-2">
         <div className="flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Average Confidence</span>
           <span className="font-medium text-foreground">
             {((objects.reduce((sum, obj) => sum + obj.confidence, 0) / objects.length) * 100).toFixed(1)}%
           </span>
         </div>
+        {modelInfo && (
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-muted-foreground">Model</span>
+            <span className="font-medium text-primary">{modelInfo.model}</span>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -6,10 +6,43 @@ import * as cocoSsd from "@tensorflow-models/coco-ssd"
 import { Camera, CameraOff, SwitchCamera, Loader2 } from "lucide-react"
 import { drawDetections, getColorForClass, type DetectedObject } from "@/lib/draw-detections"
 import { AccuracyModeSelector } from "./accuracy-mode-selector"
-import { ACCURACY_MODES, type ModelBase } from "@/hooks/use-object-detection"
 import { applyNMS } from "@/lib/nms"
 
 type CameraFacing = "user" | "environment"
+
+export type ModelBase = "lite_mobilenet_v2" | "mobilenet_v1" | "mobilenet_v2"
+
+export interface AccuracyMode {
+  name: string
+  base: ModelBase
+  description: string
+  minConfidence: number
+  maxImageSize: number
+}
+
+export const ACCURACY_MODES: Record<"fast" | "balanced" | "high", AccuracyMode> = {
+  fast: {
+    name: "Fast",
+    base: "lite_mobilenet_v2",
+    description: "Fastest detection, lower accuracy",
+    minConfidence: 0.4,
+    maxImageSize: 640,
+  },
+  balanced: {
+    name: "Balanced",
+    base: "mobilenet_v1",
+    description: "Good balance of speed and accuracy",
+    minConfidence: 0.5,
+    maxImageSize: 1024,
+  },
+  high: {
+    name: "High Accuracy",
+    base: "mobilenet_v2",
+    description: "Best accuracy, slower detection",
+    minConfidence: 0.3,
+    maxImageSize: 1920,
+  },
+}
 
 const modelCache: Map<ModelBase, Promise<cocoSsd.ObjectDetection>> = new Map()
 

@@ -52,7 +52,9 @@ export function DemoSection() {
         </div>
 
         <p className="text-center text-xs text-muted-foreground/60 mt-8">
-          Powered by TensorFlow.js &middot; COCO-SSD Model
+          {activeTab === "upload"
+            ? "Powered by GPT-4o Vision · OpenAI"
+            : "Powered by TensorFlow.js · COCO-SSD (Real-time)"}
         </p>
       </div>
     </section>

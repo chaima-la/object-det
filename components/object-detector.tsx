@@ -5,18 +5,17 @@ import { UploadBox } from "./upload-box"
 import { ResultsCard } from "./results-card"
 import { Loader } from "./loader"
 import { ImagePreview } from "./image-preview"
-import { AccuracyModeSelector } from "./accuracy-mode-selector"
-import { useObjectDetection, type DetectionResult, ACCURACY_MODES } from "@/hooks/use-object-detection"
+import { useObjectDetection, type DetectionResult } from "@/hooks/use-object-detection"
 
 export function ObjectDetector() {
   const [image, setImage] = useState<string | null>(null)
   const [results, setResults] = useState<DetectionResult | null>(null)
-  const { detect, loading, error, clearError, modelLoading, accuracyMode, setAccuracyMode } = useObjectDetection()
+  const { detect, loading, error, clearError } = useObjectDetection()
 
   const handleImageUpload = useCallback(
     async (file: File) => {
       // Validate file type
-      const validTypes = ["image/jpeg", "image/png", "image/jpg"]
+      const validTypes = ["image/jpeg", "image/png", "image/jpg", "image/webp"]
       if (!validTypes.includes(file.type)) {
         return
       }
@@ -54,26 +53,11 @@ export function ObjectDetector() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      {!image && !modelLoading && (
-        <div className="mb-6 p-4 bg-card rounded-lg border border-border">
-          <AccuracyModeSelector value={accuracyMode} onChange={setAccuracyMode} disabled={loading} />
-        </div>
-      )}
-
-      {modelLoading && (
-        <div className="flex flex-col items-center justify-center p-12 bg-card rounded-lg border border-border mb-6">
-          <Loader />
-          <p className="mt-4 text-muted-foreground">Loading AI model ({ACCURACY_MODES[accuracyMode].name})...</p>
-          <p className="mt-1 text-xs text-muted-foreground/60">This may take a moment on first load</p>
-        </div>
-      )}
-
-      {!modelLoading && !image ? (
+      {!image ? (
         <UploadBox onUpload={handleImageUpload} error={error} />
-      ) : !modelLoading && image ? (
+      ) : (
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <AccuracyModeSelector value={accuracyMode} onChange={setAccuracyMode} disabled={loading} compact />
+          <div className="flex items-center justify-end">
             <button
               onClick={handleReset}
               className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
@@ -89,12 +73,8 @@ export function ObjectDetector() {
               {loading && (
                 <div className="flex flex-col items-center justify-center p-8 bg-card rounded-lg border border-border">
                   <Loader />
-                  <p className="mt-4 text-muted-foreground">Analyzing image...</p>
-                  {accuracyMode === "high" && (
-                    <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
-                      High accuracy mode may take longer
-                    </p>
-                  )}
+                  <p className="mt-4 text-muted-foreground">Analyzing with GPT-4o...</p>
+                  <p className="mt-1 text-xs text-muted-foreground/60">Advanced AI detection in progress</p>
                 </div>
               )}
 
@@ -108,7 +88,7 @@ export function ObjectDetector() {
             </div>
           </div>
         </div>
-      ) : null}
+      )}
     </div>
   )
 }

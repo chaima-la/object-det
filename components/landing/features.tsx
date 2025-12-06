@@ -1,30 +1,30 @@
-import { Zap, Eye, Video, Shield, Cpu, Globe } from "lucide-react"
+import { Zap, Eye, Video, Shield, Brain, Globe } from "lucide-react"
 
 const features = [
   {
-    icon: Eye,
-    title: "Precise Detection",
-    description: "Identify 80+ object classes with industry-leading accuracy using COCO-SSD model.",
+    icon: Brain,
+    title: "GPT-4o Vision",
+    description: "State-of-the-art AI detection powered by OpenAI's GPT-4o with scene understanding and context.",
   },
   {
-    icon: Zap,
-    title: "Lightning Fast",
-    description: "Get results in milliseconds with optimized TensorFlow.js processing.",
+    icon: Eye,
+    title: "Comprehensive Detection",
+    description: "Detect hundreds of object types with detailed descriptions and relationship analysis.",
   },
   {
     icon: Video,
     title: "Real-Time Camera",
-    description: "Detect objects in real-time using your device camera with live bounding boxes.",
+    description: "Live camera detection using optimized TensorFlow.js for instant bounding boxes.",
+  },
+  {
+    icon: Zap,
+    title: "Scene Analysis",
+    description: "Get intelligent scene descriptions that understand context beyond individual objects.",
   },
   {
     icon: Shield,
-    title: "Privacy First",
-    description: "All processing happens in your browser. Your images never leave your device.",
-  },
-  {
-    icon: Cpu,
-    title: "No Setup Required",
-    description: "Works instantly in any modern browser. No installation or API keys needed.",
+    title: "Secure Processing",
+    description: "Enterprise-grade security with encrypted API calls. Camera mode runs fully in-browser.",
   },
   {
     icon: Globe,

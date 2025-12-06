@@ -1,7 +1,7 @@
 "use client"
 
 import { Gauge, Zap, Target } from "lucide-react"
-import { ACCURACY_MODES } from "@/hooks/use-object-detection"
+import { ACCURACY_MODES } from "@/components/camera-detect"
 
 interface AccuracyModeSelectorProps {
   value: keyof typeof ACCURACY_MODES
