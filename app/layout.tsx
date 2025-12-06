@@ -8,8 +8,9 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "AI Object Detector",
-  description: "Upload an image to detect objects using AI-powered computer vision with TensorFlow.js and COCO-SSD",
+  title: "VisionAI - AI-Powered Object Detection",
+  description:
+    "Instantly detect and identify objects in images or real-time video using state-of-the-art computer vision. No setup required, runs in your browser.",
   generator: "v0.app",
   icons: {
     icon: [
